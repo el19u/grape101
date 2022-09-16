@@ -5,10 +5,19 @@ module ApiV0
         if auth_provided?
           @env["api_v0.token"] = Authenticator.new(request, params).authenticate!
           @env["api_v0.user"] ||= @env["api_v0.token"].try(:user)
+        end
       end
 
-      def after
-        # Do something after the endpoint is called.
+      def request
+        @request ||= Grape::Request.new(env)
+      end
+
+      def params
+        @params ||= request.params
+      end
+
+      def auth_provided?
+        params[:access_key].present?
       end
     end
   end
