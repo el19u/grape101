@@ -24,5 +24,16 @@ module ApiV0
       end
     end
 
+    desc "Get a post"
+    params do
+      requires :id, type: Integer, desc: "Post ID."
+    end
+
+    get "/posts/:id" do
+      post = current_user.posts.find(params[:id])
+
+      present post, with: ApiV0::Entities::Post
+    end
+
   end
 end
