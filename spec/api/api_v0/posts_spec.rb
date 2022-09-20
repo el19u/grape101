@@ -56,4 +56,18 @@ describe ApiV0::Posts do
       expect(result["context"]).to eq(context)
     end
   end
+
+  context "Delete /api/v0/posts/:id" do
+    it "delete a post" do
+      post = posts.sample
+
+      delete "/api/v0/posts/#{post.id}", params: { access_key: access_key }
+
+      expect(response.status).to eq(200)
+      expect(result["title"]).to eq(post.title)
+      expect(result["context"]).to eq(post.context)
+      expect{Post.find(post.id)}.to (raise_error ActiveRecord::RecordNotFound)
+      expect(post.destroyed?) === true
+    end
+  end
 end
