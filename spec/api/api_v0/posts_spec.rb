@@ -1,23 +1,33 @@
 describe ApiV0::Posts do
   let(:user) { create(:user) }
-  let(:article) { create(:post) }
-  let(:api_access_token) { create(:api_access_token) }
+  let(:posts) { create_list(:post, 3, user: user) }
+  let(:api_access_token) { create(:api_access_token, user: user) }
   let(:access_key) { api_access_token.key }
   let(:result) { JSON.parse(response.body) }
   
   context "GET /api/v0/posts" do
-    let(:access_key_params) { { access_key: access_key, user: user } }
-
     it "return 200 ok" do
-      get '/api/v0/posts', params: access_key_params
+      get '/api/v0/posts', params: { access_key: access_key }
 
       expect(response.status).to eq(200)
     end
 
     it "return posts" do
-      get "/api/v0/posts", params: access_key_params 
+      get "/api/v0/posts", params: { access_key:access_key }
 
       expect(result.size).to eq(user.posts.size)
+    end
+  end
+
+  context "Get /api/v0/posts/:id" do
+    it "return a post by id" do
+      post = posts.sample
+      post = create(:post, user: user)
+      
+      get "/api/v0/posts/#{post.id}", params: { access_key: access_key }
+
+      expect(response.status).to eq(200)
+      expect(result["title"]).to eq(post.title)
     end
   end
 
