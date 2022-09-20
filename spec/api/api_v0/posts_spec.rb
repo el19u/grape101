@@ -42,4 +42,18 @@ describe ApiV0::Posts do
       expect(result["context"]).to eq(context)
     end
   end
+
+  context "Patch /api/v0/posts/:id" do
+    it "update a post" do
+      post = posts.sample
+      title = "updated title"
+      context = "updated context"
+
+      patch "/api/v0/posts/#{post.id}", params: { access_key: access_key, title: title, context: context }
+
+      expect(response.status).to eq(200)
+      expect(result["title"]).to eq(title)
+      expect(result["context"]).to eq(context)
+    end
+  end
 end
