@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module ApiV0::Auth
   class Authenticator
     def initialize(req, params)

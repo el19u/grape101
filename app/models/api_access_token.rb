@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ApiAccessToken < ApplicationRecord
   belongs_to :user
 
@@ -6,8 +7,9 @@ class ApiAccessToken < ApplicationRecord
   private
 
   def generate_keys
-    begin
-      self.key = SecureRandom.urlsafe_base64(30).tr('_-', 'xx')
-    end while ApiAccessToken.where(key: key).any?
+    loop do
+      self.key = SecureRandom.urlsafe_base64(30).tr("_-", "xx")
+    break unless ApiAccessToken.where(key: key).any?
+    end
   end
 end

@@ -13,9 +13,9 @@ describe ApiV0::Posts do
     end
 
     it "return posts" do
-      get "/api/v0/posts", params: { access_key:access_key }
+      get "/api/v0/posts", params: { access_key: access_key }
 
-      expect(result.size).to eq(user.posts.size)
+      expect(result.map { |post| post["id"] }).to eq(posts.pluck(:id))
     end
   end
 
@@ -23,7 +23,7 @@ describe ApiV0::Posts do
     it "return a post by id" do
       post = posts.sample
       post = create(:post, user: user)
-      
+
       get "/api/v0/posts/#{post.id}", params: { access_key: access_key }
 
       expect(response.status).to eq(200)

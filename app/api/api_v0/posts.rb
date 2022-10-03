@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module ApiV0
   class Posts < Grape::API
     before { authenticate! }
@@ -53,7 +54,7 @@ module ApiV0
     end
 
     desc "Delete a post"
-    params do 
+    params do
       requires :id, type: String, desc: "Post ID"
     end
     delete "/posts/:id" do
@@ -63,7 +64,7 @@ module ApiV0
         present post, with: ApiV0::Entities::Post
       else
         raise StandaraError, $!
-      end 
+      end
     end
   end
 end
