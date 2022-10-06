@@ -8,13 +8,13 @@ describe ApiV0::Posts do
     let(:user_posts) { create_list(:post, 3, user: user) }
     subject { get "/api/v0/posts", params: { access_key: access_key } }
 
-    it "return 200 ok" do
+    it "return http code 200 ok" do
       subject
 
       expect(response.status).to eq(200)
     end
 
-    it "return posts" do
+    it "return JSON of posts" do
       user_posts
       subject
 
@@ -64,7 +64,7 @@ describe ApiV0::Posts do
     let(:user_post) { create(:post, user: user) }
     subject { patch "/api/v0/posts/#{user_post.id}", params: { access_key: access_key, user: user, title: "new_title", context: "new_context" }}
   
-    it "return 200 to update a post" do
+    it "return http code 200" do
       subject
       expect(response.status).to eq(200)
     end

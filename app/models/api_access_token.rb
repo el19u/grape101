@@ -8,6 +8,7 @@ class ApiAccessToken < ApplicationRecord
 
   def generate_keys
     loop do
+      self.key = SecureRandom.urlsafe_base64(30).tr("_-", "xx")
       break if ApiAccessToken.find_by(key: key).blank?
     end
   end
