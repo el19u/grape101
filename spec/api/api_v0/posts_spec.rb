@@ -26,13 +26,13 @@ describe ApiV0::Posts do
     let(:user_post) { create(:post, user: user) }
     subject { get "/api/v0/posts/#{user_post.id}", params: { access_key: access_key } }
   
-    it "return 200 ok to show post" do
+    it "return http code 200 ok" do
       subject
   
       expect(response.status).to eq(200)
     end
   
-    it "return a post by id" do
+    it "return JSON of post data by id" do
       subject
   
       expect(result["id"]).to eq(user_post.id)
@@ -42,13 +42,13 @@ describe ApiV0::Posts do
   context "Post /api/v0/posts" do
     subject { post "/api/v0/posts", params: { access_key: access_key, user: user, title: "title", context: "context" } }
   
-    it "retrun 201 to create a post" do
+    it "return http code 201" do
       subject
   
       expect(response.status).to eq(201)
     end
   
-    it "create new JSON data" do
+    it "return JSON of created post data" do
       subject
   
       expect(result["title"]).to eq("title")
@@ -81,7 +81,7 @@ describe ApiV0::Posts do
     let(:user_post) { create(:post, user: user) }
     subject { delete "/api/v0/posts/#{user_post.id}", params: { access_key: access_key } }
   
-    it "return 200 to delete post" do
+    it "return http code 200" do
       subject
       expect(response.status).to eq(200)
     end
