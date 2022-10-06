@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module ApiV0
   module ExceptionHandlers
 
@@ -31,7 +32,7 @@ module ApiV0
   class Error < Grape::Exceptions::Base
     attr :code, :text
 
-    def initialize(opts={})
+    def initialize(opts = {})
       @code = opts[:code] || 2000
       @text = opts[:text] || ""
 
